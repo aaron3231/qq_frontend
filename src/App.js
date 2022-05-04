@@ -1,25 +1,32 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import { BrowserRouter, Route } from "react-router-dom"
+
+import SignIn from './view/SignIn.js';
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+class App extends Component {
+  state = {
+      response: '',
+      post: '',
+      responseToPost: '',
+      test: ''
+  };
 
+  componentDidMount() {
+
+  }
+
+  render() {
+
+      return (
+        <>
+        <SignIn />
+        </>
+          // <BrowserRouter>
+          //     <Route exact path="/" component={SignIn} />
+          // </BrowserRouter>
+      );
+  }
+}
 export default App;
