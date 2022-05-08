@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link, Route, Routes } from "react-router-dom";
 
 import '../css/navbar-top-fixed.css';
 import '../css/bootstrap.min.css';
