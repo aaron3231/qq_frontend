@@ -9,6 +9,8 @@ import '../css/bootstrap.min.css';
 
 const SignIn = () => {
 
+    const [showResults, setShowResults] = React.useState(false)
+
     const navigate = useNavigate();
 
     let state = {
@@ -26,9 +28,10 @@ const SignIn = () => {
             }
         });
         const body = await response.text();
-        console.log(body)
-        if (body != null)
+        // console.log(body)
+        if (body !== '')
             navigate('/grouplist', { state: { id: body, name: state.user } });
+        setShowResults(true)
     };
 
     const l = {
@@ -36,18 +39,8 @@ const SignIn = () => {
         width: '100%'
     };
 
-    const error = {
-        textAlign: 'left',
-        width: '100%',
-        color: 'red',
-    }
-
-    let errorLabel;
-
-    if (!state.response)
-        errorLabel = <label style={error}>{state.response}</label>;
-    // else
-    //     return <Navigate to={state.response}/>;
+    // if (state.response == '')
+    //     errorLabel = <label style={error}>{state.response}</label>;
 
     return (
         <>
@@ -65,11 +58,23 @@ const SignIn = () => {
                     autoFocus
                 />
                 <br></br>
-                {errorLabel}
+                { showResults ? <Results /> : null }
                 <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
             </form>
         </>
     );
+}
+
+const Results = () => {
+    const error = {
+        textAlign: 'left',
+        width: '100%',
+        color: 'red',
+    }
+
+    return (
+        <label style={error}>error</label>
+    )
 }
 
 export default SignIn;

@@ -1,33 +1,50 @@
-import React from 'react';
-import { useParams, useLocation } from "react-router-dom"
+import React, {useState, useEffect} from 'react';
+import { useLocation } from "react-router-dom"
 import Header from './Header.js';
 
 const GroupList = () => {
 
-    // let params = useParams()
-
-    // console.log(params.id)
-
     const {state} = useLocation();
-    const { id, name } = state; // Read values passed on state
+    const { id, name } = state;
 
-    let get_groups = async () => {
-        const response = await fetch('/ezmiro/ezmiro/group/getGroups?userId='+ id,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
+    const [posts, setPosts] = useState([1]);
+
+    useEffect( () => { 
+        async function fetchData() {
+            try {
+                const res = await fetch('/ezmiro/ezmiro/group/getGroups?userId='+ id,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                const body = await res.json();
+                setPosts(body);
+                console.log(body);
+            } catch (err) {
+                console.log(err);
             }
-        });
-        const body = await response.text();
-        console.log(body)
-    }
+        }
+        fetchData();
+    }, []);
+
+    if (posts.length < 1)
+        return <h3>Loading...</h3>;
 
     return (
             <>
                 <Header/>
                 <div>name:{name}</div>
                 <div>id:{id}</div>
+                <div>Group:{posts.map( (test) => {
+                    return (
+                        <>
+                        <br/>
+                        <div key={{test}}>group_id:{test.id}_____group_name:{test.name}</div>
+                        </>
+                    )
+                })}</div>
             </>
         );
 }
