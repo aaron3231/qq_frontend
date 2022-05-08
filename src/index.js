@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import SignIn from './view/SignIn';
-import {GroupList} from './view/grouplist';
+import GroupList from './view/grouplist';
 
 
 export default function App() {
@@ -12,11 +12,7 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={<SignIn/>} />
-        {/* <Route path="/grouplist" element={<GroupList/>}/> */}
-        <Route path="/grouplist" element={GroupList(props)}/>
-          {/*<Route path="blogs" element={<Blogs />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="*" element={<NoPage />} /> */}
+        <Route path="/grouplist" element={<GroupList/>} />
       </Routes>
     </Router>
   );
