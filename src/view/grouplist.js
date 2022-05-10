@@ -7,7 +7,7 @@ const GroupList = () => {
     const {state} = useLocation();
     const { id, name } = state;
 
-    const [posts, setPosts] = useState([1]);
+    const [posts, setPosts] = useState([]);
 
     useEffect( () => { 
         async function fetchData() {
@@ -21,7 +21,7 @@ const GroupList = () => {
                 });
                 const body = await res.json();
                 setPosts(body);
-                console.log(body);
+                // console.log(body);
             } catch (err) {
                 console.log(err);
             }
@@ -30,21 +30,22 @@ const GroupList = () => {
     }, []);
 
     if (posts.length < 1)
-        return <h3>Loading...</h3>;
+        return <><Header/><h3>Loading...</h3></>;
 
     return (
             <>
-                <Header/>
-                <div>name:{name}</div>
+                <Header user={name}/>
+                {/* <div>name:{name}</div> */}
                 <div>id:{id}</div>
-                <div>Group:{posts.map( (test) => {
-                    return (
-                        <>
-                        <br/>
-                        <div key={{test}}>group_id:{test.id}_____group_name:{test.name}</div>
-                        </>
-                    )
-                })}</div>
+                <div>Group:
+                    <div class="list-group">
+                    {posts.map( (test) => {
+                        return (
+                            <a href="#" key={test.id} class="list-group-item list-group-item-action">group_id:{test.id}, group_name:{test.name}</a>
+                        )
+                    })}
+                    </div>
+                </div>
             </>
         );
 }

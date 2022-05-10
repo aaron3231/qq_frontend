@@ -39,9 +39,6 @@ const SignIn = () => {
         width: '100%'
     };
 
-    // if (state.response == '')
-    //     errorLabel = <label style={error}>{state.response}</label>;
-
     return (
         <>
             <Header/>
