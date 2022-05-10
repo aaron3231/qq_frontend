@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import Header from './Header.js';
 
 const GroupList = () => {
@@ -7,7 +7,9 @@ const GroupList = () => {
     const {state} = useLocation();
     const { id, name } = state;
 
-    const [posts, setPosts] = useState([]);
+    const [groups, setGroups] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect( () => { 
         async function fetchData() {
@@ -20,7 +22,7 @@ const GroupList = () => {
                     }
                 });
                 const body = await res.json();
-                setPosts(body);
+                setGroups(body);
                 // console.log(body);
             } catch (err) {
                 console.log(err);
@@ -29,7 +31,11 @@ const GroupList = () => {
         fetchData();
     }, []);
 
-    if (posts.length < 1)
+    // const navigateTo = (group) => {
+    //     navigate('/group', { state: { userId: id, userName: name, groupId: group.id, groupName: group.name} });
+    // }
+
+    if (groups.length < 1)
         return <><Header/><h3>Loading...</h3></>;
 
     return (
@@ -39,9 +45,20 @@ const GroupList = () => {
                 <div>id:{id}</div>
                 <div>Group:
                     <div class="list-group">
-                    {posts.map( (test) => {
+                    {groups.map( (group) => {
                         return (
-                            <a href="#" key={test.id} class="list-group-item list-group-item-action">group_id:{test.id}, group_name:{test.name}</a>
+                            <div onClick={() => 
+                                            navigate('/group', { state: { 
+                                                                    userId: id, 
+                                                                    userName: name, 
+                                                                    groupId: group.id, 
+                                                                    groupName: group.name
+                                                    } })
+                                        }
+                                key={group.id} 
+                                className="list-group-item list-group-item-action">
+                                    group_id:{group.id}, group_name:{group.name}
+                            </div>
                         )
                     })}
                     </div>

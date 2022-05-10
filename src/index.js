@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import SignIn from './view/SignIn';
 import GroupList from './view/grouplist';
+import Group from './view/group';
 
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<SignIn/>} />
         <Route path="/grouplist" element={<GroupList/>} />
+        <Route path="/group" element={<Group/>} />
       </Routes>
     </Router>
   );
