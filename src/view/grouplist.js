@@ -1,6 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import { useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom";
+
 import Header from './Header.js';
+
+import '../css/signin.css';
+import '../css/navbar-top-fixed.css';
+import '../css/bootstrap.min.css';
 
 const GroupList = () => {
 
@@ -38,31 +43,40 @@ const GroupList = () => {
     if (groups.length < 1)
         return <><Header/><h3>Loading...</h3></>;
 
+    const list = {
+        marginLeft: '7vw',
+        width: '80vw',
+        marginRight: '5vw',
+        marginTop: '3vw'
+    };
+
     return (
             <>
-                <Header user={name}/>
+                <Header user={name} id={id}/>
                 {/* <div>name:{name}</div> */}
-                <div>id:{id}</div>
-                <div>Group:
-                    <div class="list-group">
+                {/* <div>id:{id}</div> */}
+                <h3 style={list}>Groups</h3>
+                <div class="list-group">
                     {groups.map( (group) => {
                         return (
-                            <div onClick={() => 
+                            <div key={group.id} style={list}> 
+                            <div
+                                className="list-group-item list-group-item-action"
+                                onClick={() => 
                                             navigate('/group', { state: { 
                                                                     userId: id, 
                                                                     userName: name, 
                                                                     groupId: group.id, 
                                                                     groupName: group.name
-                                                    } })
-                                        }
-                                key={group.id} 
-                                className="list-group-item list-group-item-action">
-                                    group_id:{group.id}, group_name:{group.name}
+                                            }})
+                                }>
+                                {group.name}
+                            </div>
+                            <br/>
                             </div>
                         )
                     })}
                     </div>
-                </div>
             </>
         );
 }
