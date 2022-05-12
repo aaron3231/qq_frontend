@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import { useLocation, useNavigate } from "react-router-dom";
 import { Tabs, Tab, Modal, ToggleButton, Form, ToggleButtonGroup } from 'react-bootstrap';
+import Select from 'react-select'
 
 const AddPayment = (props) => {
 
@@ -22,7 +23,11 @@ const AddPayment = (props) => {
         //     onCalendarOpen={handleCalendarOpen}
         //   />
         // );
-
+    const members = [
+      { label: "Grapes ", value: "grapes" },
+      { label: "Mango ", value: "mango" },
+      { label: "Strawberry ", value: "strawberry" },
+    ];
     return (
         <Modal
           {...props}
@@ -38,6 +43,13 @@ const AddPayment = (props) => {
           <Modal.Body>
           <Form>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Amount</Form.Label>
+                      <Form.Control
+                              type="text"
+                              placeholder="amount"
+                              autoFocus
+                              required
+                          />
                     <Form.Label>Description</Form.Label>
                         <Form.Control
                             type="text"
@@ -51,7 +63,12 @@ const AddPayment = (props) => {
                 controlId="exampleForm.ControlTextarea1"
                 >
                     <Form.Label>Debtor</Form.Label>
-                    <Form.Control rows={3} >
+                    {/* <Form.Control > */}
+                    <Select
+                      closeMenuOnSelect={false}
+                      isMulti
+                      options={members}
+                    />
                         {/* <ToggleButtonGroup type="checkbox" value={value} onChange={handleChange}>
                             <ToggleButton id="tbg-btn-1" value={1}>
                             User 1
@@ -63,7 +80,19 @@ const AddPayment = (props) => {
                             Option 3
                             </ToggleButton>
                         </ToggleButtonGroup>  */}
-                    </Form.Control>
+                        
+                    {/* </Form.Control> */}
+                    <Form.Label>Date</Form.Label>
+                      <Form.Control
+                                type="date"
+                                autoFocus
+                                required
+                            />
+                    <Form.Label>Note</Form.Label>
+                      <Form.Control
+                                as="textarea"
+                                required
+                            />
                 </Form.Group>
             </Form>
           </Modal.Body>
