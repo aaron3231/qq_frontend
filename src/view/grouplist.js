@@ -60,23 +60,23 @@ const GroupList = () => {
                     {groups.map( (group) => {
                         return (
                             <div key={group.id} style={list}> 
-                            <div
-                                className="list-group-item list-group-item-action"
-                                onClick={() => 
-                                            navigate('/group', { state: { 
-                                                                    userId: id, 
-                                                                    userName: name, 
-                                                                    groupId: group.id, 
-                                                                    groupName: group.name
-                                            }})
-                                }>
-                                {group.name}
-                            </div>
-                            <br/>
+                                <div
+                                    className="list-group-item list-group-item-action"
+                                    onClick={() =>
+                                                navigate('/group', { state: {
+                                                                        userId: id,
+                                                                        userName: name,
+                                                                        groupId: group.id,
+                                                                        groupName: group.name
+                                                }})
+                                    }>
+                                    {group.name}
+                                </div>
+                                <br/>
                             </div>
                         )
                     })}
-                    </div>
+                </div>
             </>
         );
 }

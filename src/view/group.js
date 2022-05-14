@@ -18,8 +18,8 @@ const Group = () => {
     const [settlements, setSettlements] = useState([]);
     const [relationship, setRelationship] = useState([]);
 
-    const [paymentModalShow, setPaymentModalShow] = React.useState(false);
-    const [settlementModalShow, setSettlementModalShow] = React.useState(false);
+    const [paymentModalShow, setPaymentModalShow] = useState(false);
+    const [settlementModalShow, setSettlementModalShow] = useState(false);
 
     // const navigate = useNavigate();
 
@@ -36,7 +36,7 @@ const Group = () => {
                 });
                 const body = await res.json();
                 setMembers(body);
-                console.log(body);
+                // console.log(body);
             } catch (err) {
                 console.log(err);
             }
@@ -111,8 +111,8 @@ const Group = () => {
 
     return (
             <>
-                <AddPayment show={paymentModalShow} onHide={() => setPaymentModalShow(false)}/>
-                <AddSettlement show={settlementModalShow} onHide={() => setSettlementModalShow(false)}/>
+                <AddPayment show={paymentModalShow} members={members} onHide={() => setPaymentModalShow(false)}/>
+                <AddSettlement show={settlementModalShow} member={members} onHide={() => setSettlementModalShow(false)}/>
                 <Header user={userName} id={userId}/>
                 <h3 style={list}>{groupName}</h3>
                 <div style={top_div}>

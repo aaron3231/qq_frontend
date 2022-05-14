@@ -23,11 +23,10 @@ const AddPayment = (props) => {
         //     onCalendarOpen={handleCalendarOpen}
         //   />
         // );
-    const members = [
-      { label: "Grapes ", value: "grapes" },
-      { label: "Mango ", value: "mango" },
-      { label: "Strawberry ", value: "strawberry" },
-    ];
+    var members = []
+    props.members.forEach(element => {
+      members.push({label: element.name, value: element.id})
+    });
     return (
         <Modal
           {...props}
@@ -100,7 +99,7 @@ const AddPayment = (props) => {
             <Button variant="secondary" onClick={props.onHide}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={props.onHide}>
+                <Button variant="primary" onClick={() => console.log("123")}>
                     Send
                 </Button>
           </Modal.Footer>

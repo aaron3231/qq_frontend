@@ -6,10 +6,12 @@ import Select from 'react-select'
 
 const AddSettlement = (props) => {
 
-    const members = [
-      { label: "UserA ", value: "grapes" },
-      { label: "UserB ", value: "mango" },
-    ];
+    var members = [];
+
+    props.member.forEach(member => {
+      members.push({label: member.name, value: member.id})
+    });
+
     return (
         <Modal
           {...props}
