@@ -6,27 +6,50 @@ import Select from 'react-select'
 
 const AddPayment = (props) => {
 
-    // const [date, setDate] = useState(new Date());
-    
-    // const handleCalendarClose = () => console.log("Calendar closed");
-    // const handleCalendarOpen = () => console.log("Calendar opened");
+    const [payment, newPayment] = useState();
+    // const [paymentData, setPaymentData] = useState({});
 
-    const [value, setValue] = useState([1, 3]);
+    const [payerId, setPayerId] = useState();
 
-    const handleChange = (val) => setValue(val);
-      
-        // return (
-        //   <DatePicker
-        //     selected={date}
-        //     onChange={(date) => setDate(date)}
-        //     onCalendarClose={handleCalendarClose}
-        //     onCalendarOpen={handleCalendarOpen}
-        //   />
-        // );
     var members = []
     props.members.forEach(element => {
       members.push({label: element.name, value: element.id})
     });
+    
+    
+    const addPayment = (event) => {
+      try {
+          var debtors = []
+          event.target.debtor.forEach(item => {
+            debtors.push(item.value)
+          })
+          const res = fetch('/ezmiro/ezmiro/payment/create?groupId='+ props.groupId,
+          {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                payerId: event.target.payer.value,
+                amount: event.target.amount.value,
+                debtors: debtors,
+                description: event.target.description.value,
+                note: event.target.note.value,
+                date: event.target.date.value
+              })
+          });
+          const result = res.json();
+      } catch (err) {
+          // console.log(err);
+      }
+    }
+
+    
+  //   useEffect( () => { 
+      
+  //     // addPayment();
+  // }, []);
+
     return (
         <Modal
           {...props}
@@ -39,15 +62,18 @@ const AddPayment = (props) => {
               Add Payment
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-          <Form>
+          <Form onSubmit={addPayment}>
+            <Modal.Body>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                    <Form.Label>Payer</Form.Label>
+                      <Select options={members} name="payer"/>
                     <Form.Label>Amount</Form.Label>
                       <Form.Control
                               type="text"
                               placeholder="amount"
                               autoFocus
                               required
+                              name="amount"
                           />
                     <Form.Label>Description</Form.Label>
                         <Form.Control
@@ -55,11 +81,12 @@ const AddPayment = (props) => {
                             placeholder="description"
                             autoFocus
                             required
+                            name="description"
                         />
                     </Form.Group>
                 <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlTextarea1"
+                  className="mb-3"
+                  controlId="exampleForm.ControlTextarea1"
                 >
                     <Form.Label>Debtor</Form.Label>
                     {/* <Form.Control > */}
@@ -67,42 +94,31 @@ const AddPayment = (props) => {
                       closeMenuOnSelect={false}
                       isMulti
                       options={members}
+                      name="debtor"
                     />
-                        {/* <ToggleButtonGroup type="checkbox" value={value} onChange={handleChange}>
-                            <ToggleButton id="tbg-btn-1" value={1}>
-                            User 1
-                            </ToggleButton>
-                            <ToggleButton id="tbg-btn-2" value={2}>
-                            Option 2
-                            </ToggleButton>
-                            <ToggleButton id="tbg-btn-3" value={3}>
-                            Option 3
-                            </ToggleButton>
-                        </ToggleButtonGroup>  */}
-                        
-                    {/* </Form.Control> */}
                     <Form.Label>Date</Form.Label>
                       <Form.Control
                                 type="date"
                                 autoFocus
                                 required
+                                name="date"
                             />
                     <Form.Label>Note</Form.Label>
                       <Form.Control
                                 as="textarea"
-                                required
+                                name="note"
                             />
                 </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={props.onHide}>
-                    Close
-                </Button>
-                <Button variant="primary" onClick={() => console.log("123")}>
-                    Send
-                </Button>
-          </Modal.Footer>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={props.onHide}>
+                      Close
+                  </Button>
+                  <Button variant="primary" type="submit">
+                      Add
+                  </Button>
+            </Modal.Footer>
+          </Form>
         </Modal>
       );
 }

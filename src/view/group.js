@@ -111,7 +111,7 @@ const Group = () => {
 
     return (
             <>
-                <AddPayment show={paymentModalShow} members={members} onHide={() => setPaymentModalShow(false)}/>
+                <AddPayment show={paymentModalShow} groupId={groupId} members={members} onHide={() => setPaymentModalShow(false)}/>
                 <AddSettlement show={settlementModalShow} member={members} onHide={() => setSettlementModalShow(false)}/>
                 <Header user={userName} id={userId}/>
                 <h3 style={list}>{groupName}</h3>
