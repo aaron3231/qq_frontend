@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
-import { useLocation, useNavigate } from "react-router-dom";
-import { Tabs, Tab, Modal, ToggleButton, Form, ToggleButtonGroup } from 'react-bootstrap';
+import { useLocation } from "react-router-dom";
+import { Tabs, Tab } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
-
+import Card from 'react-bootstrap/Card';
 import Header from './Header.js';
 import AddPayment from './AddPayment.js';
 import AddSettlement from './AddSettlement.js';
@@ -111,34 +111,60 @@ const Group = () => {
 
     return (
             <>
-                <AddPayment show={paymentModalShow} groupId={groupId} members={members} onHide={() => setPaymentModalShow(false)}/>
-                <AddSettlement show={settlementModalShow} member={members} onHide={() => setSettlementModalShow(false)}/>
+                <AddPayment show={paymentModalShow} groupid={groupId} members={members} onHide={() => {
+                    setPaymentModalShow(false)
+                    window.location.reload(false);
+                }}/>
+                <AddSettlement show={settlementModalShow} groupid={groupId} member={members} onHide={() => {
+                    setSettlementModalShow(false)
+                    window.location.reload(false);
+                }}/>
                 <Header user={userName} id={userId}/>
                 <h3 style={list}>{groupName}</h3>
                 <div style={top_div}>
                     <div style={list}>
-                        <ButtonToolbar class="btn-group" role="group" aria-label="Basic example">
+                        <ButtonToolbar className="btn-group" role="group" aria-label="Basic example">
                             <ButtonGroup aria-label="First group">
                                 <Button onClick={() => setPaymentModalShow(true)}>Add Payment</Button>
                             </ButtonGroup>
                         </ButtonToolbar>
                         <br/>
-                        <ButtonToolbar class="btn-group" role="group" aria-label="Basic example">
+                        <ButtonToolbar className="btn-group" role="group" aria-label="Basic example">
                             <ButtonGroup className="me-2" aria-label="Second group">
                                 <Button onClick={() => setSettlementModalShow(true)}>Add Settlement</Button>
                             </ButtonGroup>
                         </ButtonToolbar>
                     </div>
                     <div style={list}>
-                        {relationship.map((ship) => {
-                            if(parseFloat(ship.amount) > 0)
+                        {relationship.map((ship, index) => {
+                            if(parseFloat(ship.amount) === 0)
+                            return (
+                                <div key={index}></div>
+                            );
+                            if(parseFloat(ship.amount) > 0) {
+                                let amount = parseFloat(ship.amount).toFixed(2);
                                 return (
-                                    <div key={ship}>{ship.userName} owe you {ship.amount}</div>
+                                    <Card bg='success' style={{ width: '18rem' }} key={index}>
+                                    <Card.Body>
+                                        <Card.Text>
+                                        {ship.userName} owe you {amount}
+                                        </Card.Text>
+                                    </Card.Body>
+                                    </Card>
+                                    // <div key={index}>{ship.userName} owe you {amount}</div>
                                 );
+                            }
                             else {
-                                let amount = -parseFloat(ship.amount);
+                                let amount = -parseFloat(ship.amount).toFixed(2);
                                 return (
-                                    <div key={ship}>you owe {ship.userName} {amount}</div>
+                                    <Card bg='danger' key={index} style={{ width: '18rem' }}>
+                                    <Card.Body>
+                                        <Card.Text >
+                                        {ship.userName} owe you {amount}
+                                        </Card.Text>
+                                    </Card.Body>
+                                    </Card>
+                                    // <div key={index}>{ship.userName} owe you {amount}</div>
                                 );
                             }
                         })}
@@ -158,9 +184,9 @@ const Group = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {payments.map((payment) => {
+                            {payments.map((payment, index) => {
                                 return (
-                                    <tr key={payment} >
+                                    <tr key={index} >
                                         <td>{payment.description}</td>
                                         <td>{payment.amount}</td>
                                         {/* <td>{payment.paymentId}</td> */}
@@ -178,16 +204,16 @@ const Group = () => {
                     <Table striped bordered hover style={list}>
                         <thead>
                             <tr>
-                                <th>Payer</th>
+                                <th>Settler</th>
                                 <th>Receiver</th>
                                 <th>Amount</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {settlements.map((settlement) => {
+                            {settlements.map((settlement, index) => {
                                 return (
-                                    <tr key={settlement} >
+                                    <tr key={index} >
                                         <td>{settlement.userAName}</td>
                                         <td>{settlement.userBName}</td>
                                         <td>{settlement.amount}</td>
@@ -198,6 +224,9 @@ const Group = () => {
                             })}
                         </tbody>
                         </Table>
+                    </Tab>
+                    <Tab eventKey="report" title="Report">
+                        
                     </Tab>
                 </Tabs>
             </>

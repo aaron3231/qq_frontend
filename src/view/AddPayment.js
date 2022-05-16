@@ -1,29 +1,26 @@
-import React, {useState, useEffect} from 'react';
-import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
-import { useLocation, useNavigate } from "react-router-dom";
-import { Tabs, Tab, Modal, ToggleButton, Form, ToggleButtonGroup } from 'react-bootstrap';
+import React from 'react';
+import { Button } from 'react-bootstrap';
+import { Modal, Form } from 'react-bootstrap';
 import Select from 'react-select'
 
 const AddPayment = (props) => {
 
-    const [payment, newPayment] = useState();
-    // const [paymentData, setPaymentData] = useState({});
-
-    const [payerId, setPayerId] = useState();
-
     var members = []
     props.members.forEach(element => {
       members.push({label: element.name, value: element.id})
-    });
+    }); 
     
-    
-    const addPayment = (event) => {
+    let addPayment = (event) => {
+      event.preventDefault();
       try {
           var debtors = []
           event.target.debtor.forEach(item => {
             debtors.push(item.value)
           })
-          const res = fetch('/ezmiro/ezmiro/payment/create?groupId='+ props.groupId,
+          let note = event.target.note.value
+          if (note === null)
+              note = ''
+          fetch('/ezmiro/ezmiro/payment/create?groupId='+ props.groupid,
           {
               method: 'POST',
               headers: {
@@ -32,23 +29,18 @@ const AddPayment = (props) => {
               body: JSON.stringify({
                 payerId: event.target.payer.value,
                 amount: event.target.amount.value,
-                debtors: debtors,
+                debtorId: debtors,
                 description: event.target.description.value,
-                note: event.target.note.value,
+                note: note,
                 date: event.target.date.value
               })
           });
-          const result = res.json();
+          props.onHide()
+          // const result = res.json();
       } catch (err) {
           // console.log(err);
       }
     }
-
-    
-  //   useEffect( () => { 
-      
-  //     // addPayment();
-  // }, []);
 
     return (
         <Modal
@@ -66,7 +58,7 @@ const AddPayment = (props) => {
             <Modal.Body>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                     <Form.Label>Payer</Form.Label>
-                      <Select options={members} name="payer"/>
+                      <Select options={members} name="payer" required/>
                     <Form.Label>Amount</Form.Label>
                       <Form.Control
                               type="text"
@@ -93,6 +85,7 @@ const AddPayment = (props) => {
                     <Select
                       closeMenuOnSelect={false}
                       isMulti
+                      required
                       options={members}
                       name="debtor"
                     />

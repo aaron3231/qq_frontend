@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { useNavigate } from "react-router-dom";
 
@@ -6,20 +6,6 @@ import '../css/navbar-top-fixed.css';
 import '../css/bootstrap.min.css';
 
 const Header = (info) => {
-
-    const [showUser, setShowUser] = React.useState(false);
-
-    // useEffect( () => { 
-    //     if(info.user !== undefined) {
-    //         setShowUser(true);
-    //         console.log(info.user);
-    //     }   
-    // }, []);
-
-    // if(info.user) {
-    //     setShowUser(true);
-    //     console.log(info.user);
-    // }
 
     return (
         <>
@@ -39,8 +25,6 @@ const Header = (info) => {
 }
 
 const Link = (info) => {
-
-    console.log("qq link info", info);
 
     const navigate = useNavigate();
 
@@ -66,8 +50,6 @@ const Link = (info) => {
 }
 
 const User = (info) => {
-
-    console.log("user info", info);
 
     if(!info.user)
         return

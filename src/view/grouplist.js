@@ -28,17 +28,12 @@ const GroupList = () => {
                 });
                 const body = await res.json();
                 setGroups(body);
-                // console.log(body);
             } catch (err) {
                 console.log(err);
             }
         }
         fetchData();
     }, []);
-
-    // const navigateTo = (group) => {
-    //     navigate('/group', { state: { userId: id, userName: name, groupId: group.id, groupName: group.name} });
-    // }
 
     if (groups.length < 1)
         return <><Header/><h3>Loading...</h3></>;
@@ -56,7 +51,7 @@ const GroupList = () => {
                 {/* <div>name:{name}</div> */}
                 {/* <div>id:{id}</div> */}
                 <h3 style={list}>Groups</h3>
-                <div class="list-group">
+                <div className="list-group">
                     {groups.map( (group) => {
                         return (
                             <div key={group.id} style={list}> 
