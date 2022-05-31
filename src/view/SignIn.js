@@ -28,7 +28,6 @@ const SignIn = () => {
             }
         });
         const body = await response.text();
-        // console.log(body)
         if (body !== '')
             navigate('/grouplist', { state: { id: body, name: state.user } });
         setShowResults(true)

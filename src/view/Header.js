@@ -17,7 +17,7 @@ const Header = (info) => {
             </button>
             <div className="collapse navbar-collapse" id="navbarCollapse">
                 <ul className="navbar-nav mr-auto"></ul>
-                <User user={info.user}/>
+                <User id={info.id} user={info.user}/>
             </div>
         </nav>
         </>
@@ -51,12 +51,29 @@ const Link = (info) => {
 
 const User = (info) => {
 
+    const navigate = useNavigate();
+
+    const hover = {
+        cursor: 'pointer'
+    };
+
     if(!info.user)
         return
 
     else
         return (
-            <label className="navbar-brand">Sign in as &nbsp;&nbsp;<b>{info.user}</b>&nbsp;&nbsp;&nbsp;</label>
+            <label className="navbar-brand">
+                Sign in as &nbsp;&nbsp;
+                <div style={hover}
+                     onClick={() => 
+                                navigate('/user', { state: { 
+                                    id: info.id, 
+                                    name: info.user
+                 }})}>
+                    <b>{info.user}</b>
+                </div>
+                &nbsp;&nbsp;&nbsp;
+            </label>
         )
 }
 
